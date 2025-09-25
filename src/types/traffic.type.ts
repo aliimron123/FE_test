@@ -21,26 +21,26 @@ export type TrafficTransactionType = {
   eFlo: number;
 };
 
-export interface RowsData {
-  count: number;
-  rows: PaymentRow[];
+export interface TrafficResponse {
+  status: boolean;
+  message: string;
+  code: number;
+  data: TrafficData;
 }
 
-export interface PaymentData {
+export interface TrafficData {
   total_pages: number;
   current_page: number;
   count: number;
   rows: RowsData;
 }
 
-export interface PaymentResponse {
-  status: boolean;
-  message: string;
-  code: number;
-  data: PaymentData;
+export interface RowsData {
+  count: number;
+  rows: TrafficRow[];
 }
 
-export interface PaymentRow {
+export interface TrafficRow {
   id: number;
   IdCabang: number;
   IdGerbang: number;

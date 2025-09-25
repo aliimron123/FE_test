@@ -17,3 +17,8 @@ export interface TokenPayload {
   iat: number;
   exp: number;
 }
+export interface ErrorResponse {
+  status: boolean;
+  message: string;
+  code: number;
+}

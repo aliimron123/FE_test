@@ -1,12 +1,15 @@
 import React from "react";
-import { transaksiData } from "@/constants/data-chart";
+import { TrafficRow } from "@/types/traffic.type";
 import PieChartComponent from "./chart/pie-chart";
 
-const chartColor = ["#facc15", "#60a5fa", "#8b5cf6"];
+const chartColor = ["#facc15", "	#000042", "#8b5cf6"];
+interface ShiftCartProps {
+  data: TrafficRow[];
+}
 
-function ShiftCart() {
+function ShiftCart({ data }: ShiftCartProps) {
   // hitung total lalin per shift dulu
-  const totalPerShift = transaksiData.reduce(
+  const totalPerShift = data.reduce(
     (acc, curr) => {
       const totalLalin =
         curr.Tunai +
@@ -42,7 +45,7 @@ function ShiftCart() {
     <div className="relative flex w-full max-w-md flex-col items-center justify-center rounded-md border border-gray-100 bg-white p-2 drop-shadow-md">
       <PieChartComponent data={dataChart} color={chartColor} />
 
-      <div className="absolute bottom-6">
+      <div className="absolute bottom-2">
         {dataChart.map((item, index) => (
           <div key={index} className="flex gap-2">
             <div

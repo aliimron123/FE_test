@@ -84,11 +84,7 @@ function FormLogin() {
             {...form.getInputProps("password")}
           />
         </div>
-        <Button
-          disabled={loading}
-          type="submit"
-          className="rounded-lg bg-blue-600 text-white hover:bg-blue-700"
-        >
+        <Button disabled={loading} type="submit" style={{ backgroundColor: "#1447e6" }}>
           Login
         </Button>
       </form>

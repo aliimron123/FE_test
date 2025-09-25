@@ -15,7 +15,7 @@ interface BarChartComponentProps {
   color?: string;
 }
 
-const BarChartComponent: React.FC<BarChartComponentProps> = ({ data, color = "#60a5fa" }) => {
+const BarChartComponent: React.FC<BarChartComponentProps> = ({ data, color = "	#000042" }) => {
   return (
     <div style={{ width: "100%", height: 280 }}>
       <ResponsiveContainer>

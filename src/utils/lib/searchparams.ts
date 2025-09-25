@@ -15,6 +15,8 @@ export const searchParams = {
   edit: parseAsString,
   detail: parseAsString,
   id: parseAsString,
+  date: parseAsString,
+  cabangId: parseAsString,
   d: parseAsString,
   T: parseAsString,
   s: parseAsString,

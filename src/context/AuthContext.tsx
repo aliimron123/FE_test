@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import decodeJWT from "@/utils/lib/jwtDecode";

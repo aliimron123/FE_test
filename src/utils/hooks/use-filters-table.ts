@@ -17,11 +17,25 @@ export function useFilterTable() {
 
   const [page, setPage] = useQueryState("page", searchParams.page.withDefault(1));
 
+  const [selectedId, setSelectedId] = useQueryState(
+    "Id",
+    searchParams.id.withOptions({ shallow: true })
+  );
+
+  const [cabangId, setCabangId] = useQueryState(
+    "cabangID",
+    searchParams.cabangId.withOptions({ shallow: true })
+  );
+
+  const [date, setDate] = useQueryState("date", searchParams.date.withOptions({ shallow: true }));
   const resetFilters = useCallback(() => {
     setSearchQuery(null);
     setCategoriesFilter(null);
     setPage(1);
-  }, [setSearchQuery, setCategoriesFilter, setPage]);
+    setSelectedId(null);
+    setCabangId(null);
+    setDate(null);
+  }, [setSearchQuery, setCategoriesFilter, setPage, setSelectedId, setCabangId, setDate]);
 
   const isAnyFilterActive = useMemo(() => {
     return !!searchQuery || !!categoriesFilter;
@@ -36,5 +50,11 @@ export function useFilterTable() {
     isAnyFilterActive,
     categoriesFilter,
     setCategoriesFilter,
+    selectedId,
+    setSelectedId,
+    cabangId,
+    setCabangId,
+    date,
+    setDate,
   };
 }

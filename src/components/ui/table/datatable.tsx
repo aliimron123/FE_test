@@ -7,7 +7,7 @@ import { parseAsInteger, useQueryState } from "nuqs";
 import PaginationTable from "./pagination-table";
 
 export type Column<T> = {
-  key: keyof T;
+  key: keyof T | "action"; // tambahkan "action" untuk kolom khusus
   label: string;
   render?: (row: T) => React.ReactNode;
   sortable?: boolean;
@@ -23,7 +23,6 @@ type DataTableProps<T extends { id: number }> = {
   stickyHeader?: boolean;
   align?: "left" | "center" | "right";
   showNo?: boolean;
-  renderAction?: (row: T) => React.ReactNode;
 };
 
 export function DataTable<T extends { id: number }>({
@@ -34,7 +33,6 @@ export function DataTable<T extends { id: number }>({
   stickyHeader = false,
   align = "left",
   showNo = false,
-  renderAction,
 }: DataTableProps<T>) {
   const [currentPage, setCurrentPage] = useQueryState(
     "page",
@@ -46,11 +44,9 @@ export function DataTable<T extends { id: number }>({
   );
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
-  // Sorting state
   const [sortKey, setSortKey] = useState<keyof T | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  // Column text postion
   const getAlignmentClass = () => {
     switch (align) {
       case "center":
@@ -62,13 +58,11 @@ export function DataTable<T extends { id: number }>({
     }
   };
 
-  // Sorting data
   const sortedData = [...data];
   if (sortKey) {
     sortedData.sort((a, b) => {
       const aValue = a[sortKey];
       const bValue = b[sortKey];
-
       if (typeof aValue === "number" && typeof bValue === "number") {
         return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
       }
@@ -77,44 +71,31 @@ export function DataTable<T extends { id: number }>({
         : String(bValue).localeCompare(String(aValue));
     });
   }
-  // pagination logic
 
   const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-  // handle sorting
   const handleSort = (col: Column<T>) => {
-    if (!col.sortable) return;
-
+    if (!col.sortable || col.key === "action") return;
     if (sortKey === col.key) {
-      if (sortOrder === "asc") {
-        setSortOrder("desc");
-      } else if (sortOrder === "desc") {
-        // reset sort
-        setSortKey(null);
-        setSortOrder("asc");
-      }
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+      if (sortOrder === "desc") setSortKey(null);
     } else {
-      setSortKey(col.key);
+      setSortKey(col.key as keyof T);
       setSortOrder("asc");
     }
   };
 
   return (
     <div className="max-h-[600px] bg-white p-2">
-      {/* table */}
       <div className="element-with-scrollbar max-h-[500px] table-fixed">
         <Table striped>
           <thead className={stickyHeader ? "sticky top-0 z-10 bg-slate-200" : "bg-slate-200"}>
             <tr>
-              {showNo && (
-                <th className={`cursor-pointer px-2 py-4 font-medium ${getAlignmentClass()}`}>
-                  No
-                </th>
-              )}
+              {showNo && <th className={`px-2 py-4 font-semibold ${getAlignmentClass()}`}>No</th>}
               {columns.map((col, idx) => (
                 <th
                   key={idx}
-                  className={`cursor-pointer px-2 py-4 font-medium ${getAlignmentClass()}`}
+                  className={`cursor-pointer px-2 py-4 font-semibold ${getAlignmentClass()}`}
                   onClick={() => handleSort(col)}
                   style={{ minWidth: col.minWidth, maxWidth: col.maxWidth }}
                 >
@@ -128,9 +109,7 @@ export function DataTable<T extends { id: number }>({
                       )
                     ) : col.sortable && sortKey !== col.key ? (
                       <IconArrowsUpDown size={14} className="my-auto" />
-                    ) : (
-                      ""
-                    )}
+                    ) : null}
                   </div>
                 </th>
               ))}
@@ -145,9 +124,7 @@ export function DataTable<T extends { id: number }>({
               >
                 {showNo && (
                   <td
-                    className={`p-2 ${getAlignmentClass()} ${
-                      hoveredId === rowIndex ? "bg-slate-100" : ""
-                    }`}
+                    className={`p-2 ${getAlignmentClass()} ${hoveredId === rowIndex ? "bg-slate-100" : ""}`}
                   >
                     {(currentPage - 1) * pageSize + rowIndex + 1}
                   </td>
@@ -155,30 +132,21 @@ export function DataTable<T extends { id: number }>({
                 {columns.map((col, idx) => (
                   <td
                     key={idx}
-                    className={`p-2 ${getAlignmentClass()} ${
-                      hoveredId === rowIndex ? "bg-slate-100" : ""
-                    }`}
+                    className={`p-2 ${getAlignmentClass()} ${hoveredId === rowIndex ? "bg-slate-100" : ""}`}
                     style={{ minWidth: col.minWidth, maxWidth: col.maxWidth }}
                   >
-                    {col.render ? col.render(row) : (row[col.key] as unknown as React.ReactNode)}
+                    {col.render
+                      ? col.render(row)
+                      : col.key === "action"
+                        ? null
+                        : (row[col.key as keyof T] as unknown as React.ReactNode)}
                   </td>
                 ))}
-                {renderAction && (
-                  <td
-                    className={`p-2 ${getAlignmentClass()} ${
-                      hoveredId === rowIndex ? "bg-slate-100" : ""
-                    }`}
-                  >
-                    {renderAction(row)}
-                  </td>
-                )}
               </tr>
             ))}
           </tbody>
         </Table>
       </div>
-
-      {/* pagination */}
 
       <PaginationTable
         currentPage={currentPage}

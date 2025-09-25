@@ -1,30 +1,21 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createGate } from "@/services/api/gate.api";
+import { updateGate } from "@/services/api/gate.api";
 import { Divider } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { toast } from "sonner";
 import { Button, Input } from "@/components/ui";
 
-const randomId = Math.floor(Math.random() * 1000) + 1;
+const randomId = Math.floor(Math.random() * 1000) + 1; // 1 - 1000
 const randomIdCabang = Math.floor(Math.random() * 1000) + 100;
-
-export interface GateRow {
-  id: number;
-  IdCabang: number;
-  NamaGerbang: string;
-  NamaCabang: string;
-}
 
 interface Props {
   handleClose: () => void;
 }
 
-function FormMaster({ handleClose }: Props) {
+function FormMasterEdit({ handleClose }: Props) {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const form = useForm({
     initialValues: {
@@ -47,7 +38,7 @@ function FormMaster({ handleClose }: Props) {
         NamaGerbang: values.NamaGerbang,
       };
 
-      const createdGate = await createGate(payload);
+      const createdGate = await updateGate(payload);
       toast.success("Gate berhasil dibuat:", createdGate);
       if (createdGate) {
         form.reset();
@@ -104,4 +95,4 @@ function FormMaster({ handleClose }: Props) {
   );
 }
 
-export default FormMaster;
+export default FormMasterEdit;
