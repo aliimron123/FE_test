@@ -1,7 +1,8 @@
 import "./globals.css";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import type { Metadata } from "next";
-import { Geist, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { NuqsAdapter } from "nuqs/adapters/next/app";

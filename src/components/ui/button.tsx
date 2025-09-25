@@ -14,6 +14,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ children, className, 
     <Button
       {...props}
       className={`transition-transform duration-150 active:scale-100 ${className}`}
+      style={{ backgroundColor: "#1447e6" }}
     >
       {children}
     </Button>

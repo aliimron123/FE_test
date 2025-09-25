@@ -1,10 +1,17 @@
 import React from "react";
-import { transaksiData } from "@/constants/data-chart";
+import { TrafficRow } from "@/types/traffic.type";
 import BarChartComponent from "./chart/bar-chart";
 
-function PaymentChart() {
-  const dataChart = transaksiData.flatMap((item) => [
+interface PaymentChartProps {
+  data: TrafficRow[];
+}
+
+function PaymentChart({ data }: PaymentChartProps) {
+  const dataChart = data.flatMap((item) => [
     { name: "Tunai", value: item.Tunai },
+    { name: "Dinas Opr", value: item.DinasOpr },
+    { name: "Dinas Mitra", value: item.DinasMitra },
+    { name: "Dinas Kary", value: item.DinasKary },
     { name: "Mandiri", value: item.eMandiri },
     { name: "BRI", value: item.eBri },
     { name: "BNI", value: item.eBni },

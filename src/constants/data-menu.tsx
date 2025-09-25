@@ -11,10 +11,7 @@ export const menuItems: MenuItem[] = [
     label: "Laporan Lalin",
     href: "/dashboard/laporan-perhari",
     icon: <IconReportAnalytics size={18} />,
-    subMenu: [
-      { label: "Laporan Per Hari", href: "/dashboard/laporan-perhari" },
-      { label: "Laporan Master", href: "/dashboard/master" },
-    ],
+    subMenu: [{ label: "Laporan Per Hari", href: "/dashboard/laporan-perhari" }],
   },
   {
     label: "Master Gerbang",

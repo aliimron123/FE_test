@@ -3,8 +3,8 @@
 import React, { createContext, useState, useMemo } from "react";
 
 export interface ActionContextType {
-  action: "open" | "edit" | "create" | "detail" | null;
-  setAction: (value: "open" | "edit" | "create" | "detail" | null) => void;
+  action: "open" | "edit" | "create" | "detail" | "delete" | null;
+  setAction: (value: "open" | "edit" | "create" | "detail" | "delete" | null) => void;
 }
 
 const defaultValues: ActionContextType = {
@@ -19,7 +19,9 @@ interface Props {
 }
 
 export const ActionProvider = ({ children }: Props) => {
-  const [action, setAction] = useState<"open" | "edit" | "create" | "detail" | null>(null);
+  const [action, setAction] = useState<"open" | "edit" | "create" | "detail" | "delete" | null>(
+    null
+  );
 
   const value = useMemo(() => ({ action, setAction }), [action]);
 

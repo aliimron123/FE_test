@@ -19,7 +19,7 @@ type PieSectorData = {
 
 type PieSectorDataItem = React.SVGProps<SVGPathElement> & Partial<SectorProps> & PieSectorData;
 
-const DEFAULT_COLORS = ["#facc15", "#60a5fa", "#8b5cf6"];
+const DEFAULT_COLORS = ["#facc15", "	#000042", "#8b5cf6"];
 
 type PieData = {
   name: string;
